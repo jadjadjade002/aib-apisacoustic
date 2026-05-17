@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "lmstudio/qwen/qwen3.5-9b",
+  "small_model": "litellm/llama_cpp/glm-4.7-flash-lite",
+  "autoshare": false,
+  "autoupdate": true,
+  "plugin": [
+    "opencode-antigravity-auth@latest",
+    "opencode-plugin-openspec"
+  ],
+  "provider": {
+    "lmstudio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "lmstudio",
+      "options": {
+        "baseURL": "http://localhost:1234/v1",
+        "apiKey": "sk-asdfasdf"
+      },
+      "models": {
+        "qwen/qwen3.5-9b": {
+          "name": "qwen/qwen3.5-9b"
+        }
+      }
+    }
+  },
+  "permission": "allow"
+}
