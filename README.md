@@ -9,7 +9,7 @@ The Varroa is a tiny parasite, It's the worst nightmare of beekeepers worldwide,
 ## About Dataset
 **[Audio-Based identification of Beehive states: The dataset](https://zenodo.org/records/2667806)**
 
-- Sample Rate: 16000 Hz
+- Sample Rate: 32000 Hz
 - Audio Format: .wav
 - Duration: 96 hr
 
