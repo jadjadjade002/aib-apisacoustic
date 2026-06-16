@@ -19,12 +19,10 @@ SR = 16000
 CHUNK_S = 5
 WINDOW_S = 30
 WINDOW_FRAMES = WINDOW_S * SR
-RMS_THRESHOLD = 0.003
-TARGET_RMS = 0.01
 CONFIDENCE_THRESHOLD = 0.60
 
 print("Loading model...")
-model = timm.create_model('mobilenetv4_hybrid_large', pretrained=False, num_classes=0)
+model = timm.create_model('mobilenetv4_hybrid_large', pretrained=False)
 model.classifier = nn.Sequential(nn.Dropout(0.5), nn.Linear(1280, 3))
 model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
 model.eval()
@@ -37,7 +35,7 @@ def preprocess(audio_chunk):
     audio_chunk = audio_chunk.flatten()
     rms = float(np.sqrt(np.mean(audio_chunk ** 2)))
     if rms > 0:
-        audio_chunk = audio_chunk * (TARGET_RMS / rms)
+        audio_chunk = audio_chunk * (0.01 / rms)
     mel = librosa.feature.melspectrogram(y=audio_chunk, sr=SR, n_fft=1024, hop_length=512, n_mels=128)
     mel_db = librosa.power_to_db(mel, ref=1.0)
     tensor = torch.tensor(mel_db, dtype=torch.float32, device=DEVICE).unsqueeze(0)
@@ -66,19 +64,15 @@ def audio_callback(indata, frames, time, status):
         pred = torch.argmax(probs).item()
         confidence = probs[pred].item()
 
-    status = "LOW_AUDIO" if rms < RMS_THRESHOLD else "OK"
+    status = "LOW_AUDIO" if rms < 0.003 else "OK"
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     filename = os.path.join(SAVE_DIR, f"rec_{timestamp}.wav")
     sf.write(filename, list(audio_buffer)[:CHUNK_S * SR], SR)
 
     probs_str = " | ".join(f"{LABEL_MAP[i]}: {probs[i]:.3f}" for i in range(3))
 
-    if confidence < CONFIDENCE_THRESHOLD:
-        top2 = np.argsort(probs.numpy())[-2:][::-1]
-        guess = f"{LABEL_MAP[pred]}?"
-        print(f"[{timestamp}] {guess} ({confidence:.1%}) | rms={rms:.4f} [{status}] | {probs_str}  <-- LOW CONFIDENCE (maybe {LABEL_MAP[top2[1]]}?)")
-    else:
-        print(f"[{timestamp}] {LABEL_MAP[pred]} ({confidence:.1%}) | rms={rms:.4f} [{status}] | {probs_str}")
+    top2 = np.argsort(probs.numpy())[-2:][::-1]
+    print(f"[{timestamp}] {LABEL_MAP[pred]} ({confidence:.1%}) | rms={rms:.4f} [{status}] | {probs_str}")
 
 print(f"Listening... (classifying every {CHUNK_S}s on a rolling {WINDOW_S}s window)")
 with sd.InputStream(callback=audio_callback, channels=1, samplerate=SR, blocksize=SR * CHUNK_S):
