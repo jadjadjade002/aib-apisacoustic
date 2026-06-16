@@ -11,7 +11,7 @@ from datetime import datetime
 from collections import deque
 
 DEVICE = torch.device('cpu')
-MODEL_PATH = os.path.join('models', 'best_mobilenet_model_rpi2.pth')
+MODEL_PATH = "models/close_beeband_mobilenet_model.pth"
 SAVE_DIR = "recorded_audio"
 os.makedirs(SAVE_DIR, exist_ok=True)
 LABEL_MAP = {0: 'Active', 1: 'Queenless', 2: 'Infested'}
