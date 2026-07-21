@@ -63,8 +63,4 @@ pip install -r requirements.txt
 
 ## Results
 
-Best models saved under `models/`. Confusion matrices and full comparison table in `results/`. ConvNeXt Tiny with synthetic data achieves near-perfect classification (99.4% accuracy, 0.999 ROC-AUC).
-
-## License
-
-Academic research project.
+Best models saved under `models/`. Confusion matrices and full comparison table in `results/`. ConvNeXt Tiny with synthetic data achieves near-perfect classification (99.4% accuracy, 0.999 ROC-AUC) But on a deployment this project use mobilenetv3 small because we need a fast and good model.
