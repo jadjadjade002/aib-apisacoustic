@@ -28,22 +28,8 @@ Raw audio (16 kHz, 30 s windows) → Mel-spectrogram (128 mel, 224×224) → Nor
 | `apisacoustic-baseline-svm.ipynb` | SVM baseline (MFCC + spectral features) |
 | `noise-cancel-lab.ipynb` | Audio noise reduction experimentation |
 
-## Models
 
-All deep models use `timm` architectures with a custom classifier head (3 classes):
-
-| Model | Test Acc | Test Macro F1 | Test ROC-AUC |
-|---|---|---|---|
-| **ConvNeXt Tiny** | **99.4%** | **0.989** | **0.999** |
-| **ViT Tiny** | 99.4% | 0.988 | 0.999 |
-| MobileNetV3 Small | 99.2% | 0.987 | 0.998 |
-| RegNetY-004 | 98.8% | 0.980 | 0.999 |
-| MobileNetV3 Large | 98.6% | 0.976 | 0.999 |
-| ResNet18 | 98.2% | 0.970 | 0.999 |
-| EfficientNet-B0 | 98.0% | 0.971 | 0.994 |
-| VGG11-BN | 89.2% | 0.875 | 0.974 |
-
-**SVM baseline** (MFCC + RBF kernel): 92% test accuracy, macro F1 0.91.
+**SVM baseline** (MFCC + RBF kernel): 90% test accuracy, macro F1 0.89.
 
 ## Raspberry Pi Deployment
 
