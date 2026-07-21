@@ -1,7 +1,7 @@
 [project]
 name = "apisacoustic"
 version = "0.1.0"
-description = "Add your description here"
+description = "Bee hive sound classification (Active/Queenless/Infested) using deep learning and classical ML. Pipeline: raw audio -> Mel-spectrogram -> CNN/SVM classifier. Deployed on Raspberry Pi 4 with LINE Messaging API alerts."
 readme = "README.md"
 requires-python = ">=3.12, <3.13"
 
